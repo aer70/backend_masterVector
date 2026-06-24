@@ -28,6 +28,8 @@ from rq import Queue
 from vectorization_service import parse_settings_json, process_job, validate_settings_payload
 from backend.ai_service import suggest_settings, chat_about_settings
 
+FILE_STORAGE_BASE_URL = os.getenv("FILE_STORAGE_BASE_URL")
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 STORAGE_DIR = BASE_DIR / "storage"
 UPLOADS_DIR = STORAGE_DIR / "uploads"
@@ -1221,8 +1223,8 @@ def download_svg(
     user: dict[str, Any] | None = Depends(auth_user_optional),
     guest_token: str | None = Header(default=None, alias="X-Guest-Token"),
 ) -> FileResponse:
-    path = _resolve_user_job_file(job_id, user, guest_token, "svg")
-    return FileResponse(path, media_type="image/svg+xml", filename=path.name)
+    file_key = _resolve_user_job_file_key(job_id, user, guest_token, "svg_file_key", "svg")
+    return resolve_file_response(file_key, "svg")
 
 
 @app.get("/jobs/{job_id}/download/log")
@@ -1231,8 +1233,8 @@ def download_log(
     user: dict[str, Any] | None = Depends(auth_user_optional),
     guest_token: str | None = Header(default=None, alias="X-Guest-Token"),
 ) -> FileResponse:
-    path = _resolve_user_job_file(job_id, user, guest_token, "log")
-    return FileResponse(path, media_type="text/plain", filename=path.name)
+    file_key = _resolve_user_job_file_key(job_id, user, guest_token, "log_file_key", "log")
+    return resolve_file_response(file_key, "log")
 
 
 @app.get("/jobs/{job_id}/logs")
