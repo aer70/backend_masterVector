@@ -17,7 +17,13 @@ target_metadata = None
 
 
 def get_database_url() -> str:
-    return os.getenv("DATABASE_URL") or config.get_main_option("sqlalchemy.url")
+    url = os.getenv("DATABASE_URL") or config.get_main_option("sqlalchemy.url")
+
+    # Используем драйвер psycopg (v3) вместо psycopg2
+    if url.startswith("postgresql://"):
+        url = url.replace("postgresql://", "postgresql+psycopg://", 1)
+
+    return url
 
 
 def run_migrations_offline() -> None:
