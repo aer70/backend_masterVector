@@ -560,6 +560,34 @@ def resolve_keyed_path(file_key: str, kind: str) -> Path:
         raise HTTPException(status_code=404, detail=f"{kind.upper()} file not found")
     return path
 
+import httpx
+from fastapi.responses import StreamingResponse
+
+
+def resolve_file_response(file_key: str, kind: str):
+    # если указали внешний storage (другой сервер / CDN)
+    if FILE_STORAGE_BASE_URL:
+        url = f"{FILE_STORAGE_BASE_URL.rstrip('/')}/{file_key}"
+
+        r = httpx.get(url)
+        if r.status_code != 200:
+            raise HTTPException(status_code=404, detail="File not found in remote storage")
+
+        media_type = "image/svg+xml" if kind == "svg" else "text/plain"
+
+        return StreamingResponse(
+            iter([r.content]),
+            media_type=media_type,
+        )
+
+    # иначе — старое поведение (локальные файлы)
+    path = resolve_keyed_path(file_key, kind)
+
+    return FileResponse(
+        path,
+        media_type="image/svg+xml" if kind == "svg" else "text/plain",
+        filename=path.name,
+    )
 
 def auth_admin(x_admin_token: str | None = Header(default=None, alias="X-Admin-Token")) -> None:
     if not x_admin_token or x_admin_token != ADMIN_TOKEN:
