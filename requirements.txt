@@ -5,7 +5,7 @@ pydantic==2.10.6
 email-validator==2.2.0
 bcrypt==4.2.1
 PyJWT==2.10.1
-opencv-python==4.11.0.86
+opencv-python-headless==4.11.0.86
 numpy==2.2.2
 svgwrite==1.4.3
 Pillow==11.1.0
