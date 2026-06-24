@@ -37,7 +37,7 @@ MAX_BMP_BYTES = 25 * 1024 * 1024
 ALLOWED_BMP_CONTENT_TYPES = {"image/bmp", "image/x-ms-bmp", "application/octet-stream"}
 
 JWT_SECRET = os.getenv("BMP2SVG_JWT_SECRET", "change-this-secret-in-production")
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://bmp2svg:bmp2svg@127.0.0.1:5432/bmp2svg")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:asDUpnyQpQuaQEtPPqNOvCDvXnIazqFX@postgres.railway.internal:5432/railway")
 JWT_ALGO = "HS256"
 ACCESS_TTL_MINUTES = 30
 REFRESH_TTL_DAYS = 7
@@ -48,7 +48,7 @@ UPLOAD_RATE_LIMIT_COUNT = int(os.getenv("BMP2SVG_RATE_LIMIT_UPLOAD_COUNT", "10")
 UPLOAD_RATE_LIMIT_WINDOW_SEC = int(os.getenv("BMP2SVG_RATE_LIMIT_UPLOAD_WINDOW_SEC", "60"))
 SIGNED_DOWNLOAD_MAX_TTL_SEC = int(os.getenv("BMP2SVG_SIGNED_DOWNLOAD_MAX_TTL_SEC", "3600"))
 SIGNED_DOWNLOAD_DEFAULT_TTL_SEC = int(os.getenv("BMP2SVG_SIGNED_DOWNLOAD_DEFAULT_TTL_SEC", "300"))
-REDIS_URL = os.getenv("REDIS_URL", "redis://127.0.0.1:6379/0")
+REDIS_URL = os.getenv("REDIS_URL", "redis://default:tBpcxWxcJmvmOrQnrDDzhjHhTMeTnElJ@redis.railway.internal:6379")
 QUEUE_NAME = os.getenv("BMP2SVG_QUEUE_NAME", "bmp2svg-jobs")
 JOB_MAX_RETRIES = int(os.getenv("BMP2SVG_JOB_MAX_RETRIES", "2"))
 ADMIN_TOKEN = os.getenv("BMP2SVG_ADMIN_TOKEN", "change-this-admin-token")
