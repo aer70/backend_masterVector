@@ -27,9 +27,9 @@ from rq import Queue
 
 from vectorization_service import parse_settings_json, process_job, validate_settings_payload
 from backend.ai_service import suggest_settings, chat_about_settings
-FILE_STORAGE_BASE_URL = os.getenv("FILE_STORAGE_BASE_URL")
-BASE_DIR = Path("/data")
-STORAGE_DIR = BASE_DIR 
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+STORAGE_DIR = Path(os.getenv("STORAGE_DIR", "/data"))
 UPLOADS_DIR = STORAGE_DIR / "uploads"
 RESULTS_DIR = STORAGE_DIR / "results"
 
@@ -1420,4 +1420,4 @@ def admin_metrics() -> AdminMetricsResponse:
         svg_bytes_total=int(row["svg_bytes_total"]),
         log_bytes_total=int(row["log_bytes_total"]),
         queue_depth=queue_depth,
-    )
+    ) 
