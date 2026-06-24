@@ -1,6 +1,4 @@
 from __future__ import annotations
-import httpx
-from fastapi.responses import StreamingResponse
 
 import hashlib
 import json
@@ -29,11 +27,9 @@ from rq import Queue
 
 from vectorization_service import parse_settings_json, process_job, validate_settings_payload
 from backend.ai_service import suggest_settings, chat_about_settings
-
 FILE_STORAGE_BASE_URL = os.getenv("FILE_STORAGE_BASE_URL")
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-STORAGE_DIR = BASE_DIR / "storage"
+BASE_DIR = Path("/data")
+STORAGE_DIR = BASE_DIR 
 UPLOADS_DIR = STORAGE_DIR / "uploads"
 RESULTS_DIR = STORAGE_DIR / "results"
 
@@ -562,34 +558,6 @@ def resolve_keyed_path(file_key: str, kind: str) -> Path:
         raise HTTPException(status_code=404, detail=f"{kind.upper()} file not found")
     return path
 
-import httpx
-from fastapi.responses import StreamingResponse
-
-
-def resolve_file_response(file_key: str, kind: str):
-    # если указали внешний storage (другой сервер / CDN)
-    if FILE_STORAGE_BASE_URL:
-        url = f"{FILE_STORAGE_BASE_URL.rstrip('/')}/{file_key}"
-
-        r = httpx.get(url)
-        if r.status_code != 200:
-            raise HTTPException(status_code=404, detail="File not found in remote storage")
-
-        media_type = "image/svg+xml" if kind == "svg" else "text/plain"
-
-        return StreamingResponse(
-            iter([r.content]),
-            media_type=media_type,
-        )
-
-    # иначе — старое поведение (локальные файлы)
-    path = resolve_keyed_path(file_key, kind)
-
-    return FileResponse(
-        path,
-        media_type="image/svg+xml" if kind == "svg" else "text/plain",
-        filename=path.name,
-    )
 
 def auth_admin(x_admin_token: str | None = Header(default=None, alias="X-Admin-Token")) -> None:
     if not x_admin_token or x_admin_token != ADMIN_TOKEN:
@@ -1253,8 +1221,8 @@ def download_svg(
     user: dict[str, Any] | None = Depends(auth_user_optional),
     guest_token: str | None = Header(default=None, alias="X-Guest-Token"),
 ) -> FileResponse:
-    file_key = _resolve_user_job_file_key(job_id, user, guest_token, "svg_file_key", "svg")
-    return resolve_file_response(file_key, "svg")
+    path = _resolve_user_job_file(job_id, user, guest_token, "svg")
+    return FileResponse(path, media_type="image/svg+xml", filename=path.name)
 
 
 @app.get("/jobs/{job_id}/download/log")
@@ -1263,8 +1231,8 @@ def download_log(
     user: dict[str, Any] | None = Depends(auth_user_optional),
     guest_token: str | None = Header(default=None, alias="X-Guest-Token"),
 ) -> FileResponse:
-    file_key = _resolve_user_job_file_key(job_id, user, guest_token, "log_file_key", "log")
-    return resolve_file_response(file_key, "log")
+    path = _resolve_user_job_file(job_id, user, guest_token, "log")
+    return FileResponse(path, media_type="text/plain", filename=path.name)
 
 
 @app.get("/jobs/{job_id}/logs")
