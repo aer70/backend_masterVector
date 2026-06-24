@@ -157,12 +157,14 @@ class AdminMetricsResponse(BaseModel):
     log_bytes_total: int
     queue_depth: int
 
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="BMP2SVG API", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    
+    allow_origins=["https://frontmastervector-production.up.railway.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
