@@ -1,0 +1,5 @@
+-- Deprecated bootstrap script.
+--
+-- Schema is managed by Alembic migrations now.
+-- Use:
+--   python -m alembic -c alembic.ini upgrade head

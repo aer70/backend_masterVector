@@ -1,0 +1,34 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: bmp2svg-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: bmp2svg
+      POSTGRES_USER: bmp2svg
+      POSTGRES_PASSWORD: bmp2svg
+      TZ: UTC
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bmp2svg -d bmp2svg"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7
+    container_name: bmp2svg-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  pgdata:

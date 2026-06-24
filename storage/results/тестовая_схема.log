@@ -1,0 +1,18 @@
+2026-06-24 23:47:20,689 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Job started
+2026-06-24 23:47:20,689 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Input file: D:\практика 2025\bmp2svga_serv\storage\uploads\тестовая_схема.bmp
+2026-06-24 23:47:20,689 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Target SVG path: D:\практика 2025\bmp2svga_serv\storage\results\тестовая_схема.svg
+2026-06-24 23:47:20,689 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Job log path: D:\практика 2025\bmp2svga_serv\storage\results\тестовая_схема.log
+2026-06-24 23:47:20,690 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Stage changed to 'settings-validation' (Checking and normalizing settings)
+2026-06-24 23:47:20,691 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Stage changed to 'vectorization' (Running bmp_to_svg_precise)
+2026-06-24 23:47:20,791 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Изображение: 2730x1740, dtype=uint8
+2026-06-24 23:47:20,804 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Определён фон: (np.uint8(128), np.uint8(128), np.uint8(128))
+2026-06-24 23:47:25,916 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Уникальных цветов (RGBA): 71
+2026-06-24 23:47:26,021 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Групп найдено: 35
+2026-06-24 23:47:27,507 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Обработано цветов (connect): 20/71
+2026-06-24 23:47:27,990 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Обработано цветов (connect): 40/71
+2026-06-24 23:47:28,477 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Обработано цветов (connect): 60/71
+2026-06-24 23:47:28,730 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] SVG сохранён: D:\практика 2025\bmp2svga_serv\storage\results\тестовая_схема.svg
+2026-06-24 23:47:28,735 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Stage changed to 'output-verification' (Checking that output SVG exists)
+2026-06-24 23:47:28,735 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Previous stage duration: 8s
+2026-06-24 23:47:28,735 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Stage changed to 'finished' (Job finished successfully)
+2026-06-24 23:47:28,735 [INFO] [job=90ddb8b5-b187-45ee-8434-67396cc41523] Job finished successfully in 8049ms
